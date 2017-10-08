@@ -20,10 +20,10 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./imagens_para_writeup/undistorted.JPG "Undistorted"
-[image2]: ./imagens_para_writeup/undistorted_road.jpg "Road Transformed"
-[image3]: ./imagens_para_writeup/threshold.jpg "Binary Example"
-[image4]: ./imagens_para_writeup/birdeye0.jpg "Warp Example"
-[image5]: ./imagens_para_writeup/polyfit.jpg "Fit Visual"
+[image2]: ./imagens_para_writeup/undistorted_road.JPG "Road Transformed"
+[image3]: ./imagens_para_writeup/threshold.JPG "Binary Example"
+[image4]: ./imagens_para_writeup/birdeye0.JPG "Warp Example"
+[image5]: ./imagens_para_writeup/polyfit.JPG "Fit Visual"
 [image6]: ./output_images/test3.jpg "Output"
 [video1]: ./project_video_output.mp4 "Video"
 
