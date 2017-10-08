@@ -105,9 +105,9 @@ To do that, I wrote the `calculate_radius_and_center` function.
 
 To calculate the vehicle's position with respect to center was simple: I took the diffence between the center of the fitted curves at the nearest point to the car and the center of the image. Then, I multiplied the result by a factor. The result is in meters.
 
-`center = binary_warped.shape[1]/2 -  (asd+asd2)/2
-    mppx = 3.7 / (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])# 3.7/ (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])  is meters per pixel in x axis
-    center = mppx * center`
+``center = binary_warped.shape[1]/2 -  (asd+asd2)/2``
+``mppx = 3.7 / (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])# 3.7/ (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])  is meters per pixel in x axis``
+``center = mppx * center``
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
