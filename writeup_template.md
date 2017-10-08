@@ -21,11 +21,11 @@ The goals / steps of this project are the following:
 
 [image1]: ./imagens_para_writeup/undistorted.JPG "Undistorted"
 [image2]: ./imagens_para_writeup/undistorted_road.jpg "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
-[image4]: ./examples/warped_straight_lines.jpg "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
-[video1]: ./project_video.mp4 "Video"
+[image3]: ./imagens_para_writeup/threshold.jpg "Binary Example"
+[image4]: ./imagens_para_writeup/birdeye.jpg "Warp Example"
+[image5]: ./imagens_para_writeup/polyfit.jpg "Fit Visual"
+[image6]: ./output_images/test3.jpg "Output"
+[video1]: ./project_video_output.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
@@ -59,7 +59,7 @@ To demonstrate this step, I will describe how I apply the distortion correction 
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of a x-axis gradient threshold and H-L-S threshholds. (`thresholdImage` function, second code cell in  `Final_Code.ipynb`)
+I used a combination of a x-axis gradient threshold and H-L-S threshholds. (`thresholdImage` function, in the second code cell in  `Final_Code.ipynb` or in the fifth code cell in `example.ipynb`)
 
 ![alt text][image3]
 
@@ -68,26 +68,18 @@ I used a combination of a x-axis gradient threshold and H-L-S threshholds. (`thr
 The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
 
 ```python
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
+    src = np.float32([[0.14*img.shape[1],img.shape[0]],[0.86*img.shape[1],img.shape[0]],[0.55*img.shape[1],0.64*img.shape[0]],[0.45*img.shape[1],0.64*img.shape[0]]])
+    dst = np.float32([[0.14*img.shape[1],img.shape[0]],[0.86*img.shape[1],img.shape[0]],[0.86*img.shape[1],0],[0.14*img.shape[1],0]])
 ```
 
 This resulted in the following source and destination points:
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
+| 0.14*img.shape[1], img.shape[0]      | 0.14*img.shape[1], img.shape[0]        | 
+| 0.86*img.shape[1], img.shape[0]      | 0.86*img.shape[1], img.shape[0]      |
+| 0.55*img.shape[1], 0.64*img.shape[0]     | 0.86*img.shape[1], 0      |
+| 0.45*img.shape[1], 0      | 0.14*img.shape[1], 0        |
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
@@ -95,7 +87,7 @@ I verified that my perspective transform was working as expected by drawing the 
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+To fit their positions with a polynomial, I used numpy's `polyfit` function.
 
 ![alt text][image5]
 
@@ -105,13 +97,17 @@ To do that, I wrote the `calculate_radius_and_center` function.
 
 To calculate the vehicle's position with respect to center was simple: I took the diffence between the center of the fitted curves at the nearest point to the car and the center of the image. Then, I multiplied the result by a factor. The result is in meters.
 
-``center = binary_warped.shape[1]/2 -  (asd+asd2)/2``
-``mppx = 3.7 / (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])# 3.7/ (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])  is meters per pixel in x axis``
-``center = mppx * center``
+```python
+center = binary_warped.shape[1]/2 -  (asd+asd2)/2
+
+mppx = 3.7 / (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])# 3.7/ (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])  is meters per pixel in x axis
+
+center = mppx * center
+```
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+I implemented these steps in the `draw_lane` and `draw_data` functions. The result is shown bellow:
 
 ![alt text][image6]
 
@@ -121,6 +117,8 @@ I implemented this step in lines # through # in my code in `yet_another_file.py`
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
+
+![alt_text][video1]
 Here's a [link to my video result](./project_video_output.mp4)
 
 ---
