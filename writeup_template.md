@@ -96,7 +96,7 @@ To fit their positions with a polynomial, I used numpy's `polyfit` function.
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-To do that, I wrote the `calculate_radius_and_center` function. 
+To do that, I wrote the `calculate_radius_and_center` function, which can be found in the second cell in `Final_Code.ipynb` or in the nineth code cell in `example.ipynb`.
 
 To calculate the vehicle's position with respect to center was simple: I took the diffence between the center of the fitted curves at the nearest point to the car and the center of the image. Then, I multiplied the result by a factor. The result is in meters.
 
@@ -106,6 +106,16 @@ center = binary_warped.shape[1]/2 -  (asd+asd2)/2
 mppx = 3.7 / (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])# 3.7/ (0.86*binary_warped.shape[1] -  0.14*binary_warped.shape[1])  is meters per pixel in x axis
 
 center = mppx * center
+```
+
+To calculate the radius of curvature of the lane, I fitted another polynomial, but using meters as unit instead of pixels. Then, using the equation provided by the course, I was able to calculate both left and right lane radius. Finaly, I took the mean value.
+
+```python
+    left_fit_cr = np.polyfit(lefty*mpp, leftx*mppx, 2)
+    right_fit_cr = np.polyfit(righty*mpp, rightx*mppx, 2)
+    left_radius = ((1 + (2*left_fit_cr[0]*binary_warped.shape[0]*mpp + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+    right_radius = ((1 + (2*right_fit_cr[0]*binary_warped.shape[0]*mpp + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+    radius = (left_radius+right_radius)/2
 ```
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
