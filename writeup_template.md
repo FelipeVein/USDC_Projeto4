@@ -20,6 +20,7 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./imagens_para_writeup/undistorted.JPG "Undistorted"
+[image22]: ./imagens_para_writeup/distorted_road.JPG "Road (original)"
 [image2]: ./imagens_para_writeup/undistorted_road.JPG "Road Transformed"
 [image3]: ./imagens_para_writeup/threshold.JPG "Binary Example"
 [image4]: ./imagens_para_writeup/birdeye0.JPG "Warp Example"
@@ -55,6 +56,7 @@ I first assumed that the chessboard is fixed on the x-y plane at z=0, which are 
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
 
+![alt text][image22]
 ![alt text][image2]
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
