@@ -22,7 +22,7 @@ The goals / steps of this project are the following:
 [image1]: ./imagens_para_writeup/undistorted.JPG "Undistorted"
 [image2]: ./imagens_para_writeup/undistorted_road.jpg "Road Transformed"
 [image3]: ./imagens_para_writeup/threshold.jpg "Binary Example"
-[image4]: ./imagens_para_writeup/birdeye.jpg "Warp Example"
+[image4]: ./imagens_para_writeup/birdeye0.jpg "Warp Example"
 [image5]: ./imagens_para_writeup/polyfit.jpg "Fit Visual"
 [image6]: ./output_images/test3.jpg "Output"
 [video1]: ./project_video_output.mp4 "Video"
@@ -65,7 +65,8 @@ I used a combination of a x-axis gradient threshold and H-L-S threshholds. (`thr
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
+The function `warpImage(img, toBird = True)` does the perspective transform. It can do the camera to bird transform or bird to camera transform. The code can be found in the second code cell in `Final_Code.ipynb` or in the fourth code cell in `example.ipynb`.
+
 
 ```python
     src = np.float32([[0.14*img.shape[1],img.shape[0]],[0.86*img.shape[1],img.shape[0]],[0.55*img.shape[1],0.64*img.shape[0]],[0.45*img.shape[1],0.64*img.shape[0]]])
@@ -118,7 +119,6 @@ I implemented these steps in the `draw_lane` and `draw_data` functions. The resu
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
 
-![alt_text][video1]
 Here's a [link to my video result](./project_video_output.mp4)
 
 ---
@@ -127,9 +127,9 @@ Here's a [link to my video result](./project_video_output.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
+My pipeline does not work properly when there are different lighting conditions, shadows, discoloration. 
 
+Set the threshold parameters to the project video wasn't difficult, but with the same parameters the pipeline falls apart in the other two videos.
 
-
-
-I tried a lot of different thresholds, but none of them worked well on the Harder Challenge Video. Some of them worked on the Challenge Video, but they weren't good enough. What approach should I take to make it right?
+I tried a lot of different thresholds, but none of them worked well on the Harder Challenge Video. Some of them worked on the Challenge Video, but they weren't good enough. What approach should I take to make it work?
 
